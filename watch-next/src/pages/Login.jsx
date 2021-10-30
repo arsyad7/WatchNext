@@ -9,7 +9,7 @@ export default function Login() {
     const history = useHistory();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null)
+    const [error, setError] = useState(null);
 
     function handleLogin(e) {
         e.preventDefault();
@@ -18,10 +18,13 @@ export default function Login() {
             .then( ({ data }) => {
                 console.log(data);
                 localStorage.setItem("access_token", data.access_token)
+                localStorage.setItem("username", data.username)
                 dispatch(setUser(data))
                 history.push("Home")
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setError(err.response.data.message)
+            })
     }
 
     return (

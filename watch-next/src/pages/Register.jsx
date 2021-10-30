@@ -10,6 +10,7 @@ export default function AddAdmin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
+    const [error, setError] = useState(null);
 
     function handleRegister(e) {
         e.preventDefault();
@@ -18,7 +19,9 @@ export default function AddAdmin() {
             .then( () => {
                 history.goBack();
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setError(err.response.data.message[0])
+            })
     }
 
     return (
@@ -31,6 +34,9 @@ export default function AddAdmin() {
                         <div className="p-3">
                             <h1><b>Register</b></h1><hr />
                             <form onSubmit={handleRegister}>
+                                {
+                                    error ? <p style={{ color: 'red'}}>{error}</p> : null
+                                }
                                 <div className="form-group mt-4">
                                     <label htmlFor="exampleInputEmail1"><b>Username</b></label>
                                     <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" className="form-control" placeholder="Enter username" />
