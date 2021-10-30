@@ -16,7 +16,6 @@ export default function Login() {
 
         dispatch(login({ email, password }))
             .then( ({ data }) => {
-                console.log(data);
                 localStorage.setItem("access_token", data.access_token)
                 localStorage.setItem("username", data.username)
                 dispatch(setUser(data))
