@@ -22,9 +22,16 @@ export default function Detail() {
             .catch(err => console.log(err))
     }, [id])
 
+    if (!movie) {
+        return (
+            <div className="d-flex align-items-center justify-content-center" style={{ height: '500px'}}>
+                <h2 style={{ color: 'white'}}>Loading...</h2>
+            </div>
+        )
+    }
+
     return (
         <div>
-            {/* <p>{JSON.stringify(movie)}</p> */}
             <div className="container">
                 <div className="row">
                     <div className="col-1"></div>
@@ -54,12 +61,6 @@ export default function Detail() {
                     <div className="col-1"></div>
                 </div>
             </div>
-            {/* <p>foto</p>
-            <p>title</p>
-            <p>overview</p>
-            <p>genre</p>
-            <p>release date</p>
-            <p>rate</p> */}
         </div>
     )
 }
