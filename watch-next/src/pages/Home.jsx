@@ -48,49 +48,16 @@ export default function Home() {
 
     useEffect(() => {
         if (search !== "") {
-            const newMovies = movies.filter(e => e.title.toLowerCase().startsWith(search.toLowerCase()))
+            const newMovies = movies.filter(e => e.title.toLowerCase().startsWith(search.toLowerCase()));
+            if (newMovies.length === 0) {
+                swal("Error!!", "Movie Not Found!!", "error")
+                setSearch("")
+            }
             setFoundMovies(newMovies)
         } else {
             setFoundMovies([])
         }
     }, [search, movies])
-
-    if (foundMovies.length !== 0) {
-        return (
-            <>
-                <Navbar />
-                <div className="container py-5">
-                <SearchBar search={search} setSearch={setSearch} />
-                    <div className="row p-3 align-items-center">
-                    {
-                        foundMovies.map((e, i) => {
-                            return (
-                                    <div key={i} className="card m-3 shadow p-0" style={{ width: '18rem', height: '36rem' }}>
-                                        <div>
-                                            <Link to={`/detail/${e.id}`}>
-                                                <img className="card-img-top" src={`https://image.tmdb.org/t/p/w500${e.poster_path}`} style={{ width: '100%', objectFit: 'cover' }} alt="" />
-                                            </Link>
-                                        </div>
-                                        <div>
-                                            <div className="card-body" style={{ flexDirection: 'row'}}>
-                                                <h5 style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.title}</h5>
-                                                <p>Rating: <b>{e.vote_average}</b></p>
-                                                <div className="d-flex flex-column-reverse">
-                                                    <button type="button" className="btn btn-outline-dark"
-                                                        onClick={() => handleAddToWatchlist(e)}
-                                                    >add to watchlist</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                            )
-                        })
-                    }
-                    </div>
-                </div>
-            </>
-        )
-    }
     
     return (
         <div>
@@ -103,30 +70,53 @@ export default function Home() {
                     hasMore={hasMore}
                 >
                     <div className="row p-3 align-items-center">
-                    {
-                        movies.map((e, i) => {
-                            return (
-                                    <div key={i} className="card m-3 shadow p-0" style={{ width: '18rem', height: '36rem' }}>
-                                        <div>
-                                            <Link to={`/detail/${e.id}`}>
-                                                <img className="card-img-top" src={`https://image.tmdb.org/t/p/w500${e.poster_path}`} style={{ width: '100%', objectFit: 'cover' }} alt="" />
-                                            </Link>
-                                        </div>
-                                        <div>
-                                            <div className="card-body" style={{ flexDirection: 'row'}}>
-                                                <h5 style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.title}</h5>
-                                                <p>Rating: <b>{e.vote_average}</b></p>
-                                                <div className="d-flex flex-column-reverse">
-                                                    <button type="button" className="btn btn-outline-dark"
-                                                        onClick={() => handleAddToWatchlist(e)}
-                                                    >add to watchlist</button>
+                        {
+                            foundMovies.length !== 0 
+                            ? foundMovies.map((e, i) => {
+                                return (
+                                        <div key={i} className="card m-3 shadow p-0" style={{ width: '18rem', height: '36rem' }}>
+                                            <div>
+                                                <Link to={`/detail/${e.id}`}>
+                                                    <img className="card-img-top" src={`https://image.tmdb.org/t/p/w500${e.poster_path}`} style={{ width: '100%', objectFit: 'cover' }} alt="" />
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <div className="card-body" style={{ flexDirection: 'row'}}>
+                                                    <h5 style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.title}</h5>
+                                                    <p>Rating: <b>{e.vote_average}</b></p>
+                                                    <div className="d-flex flex-column-reverse">
+                                                        <button type="button" className="btn btn-outline-dark"
+                                                            onClick={() => handleAddToWatchlist(e)}
+                                                        >add to watchlist</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                            )
-                        })
-                    }
+                                )
+                            }) 
+                            : movies.map((e, i) => {
+                                return (
+                                        <div key={i} className="card m-3 shadow p-0" style={{ width: '18rem', height: '36rem' }}>
+                                            <div>
+                                                <Link to={`/detail/${e.id}`}>
+                                                    <img className="card-img-top" src={`https://image.tmdb.org/t/p/w500${e.poster_path}`} style={{ width: '100%', objectFit: 'cover' }} alt="" />
+                                                </Link>
+                                            </div>
+                                            <div>
+                                                <div className="card-body" style={{ flexDirection: 'row'}}>
+                                                    <h5 style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{e.title}</h5>
+                                                    <p>Rating: <b>{e.vote_average}</b></p>
+                                                    <div className="d-flex flex-column-reverse">
+                                                        <button type="button" className="btn btn-outline-dark"
+                                                            onClick={() => handleAddToWatchlist(e)}
+                                                        >add to watchlist</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                )
+                            })
+                        }
                     </div>
                 </InfiniteScroll>
             </div>
